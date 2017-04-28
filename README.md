@@ -34,14 +34,9 @@ docker build --tag="scidb-eo:egu2017demo" . # don't miss the dot
 _Note that by default, this includes a rather careful SciDB configuration with relatively little demand for main memory. You may modify `conf/scidb_docker.ini` if you have a powerful machine._
 
 
-### 2. Start a container to run the study cases (30-60 minutes per study case)
+### 2. Start a container to run the study case (30-60 minutes)
 
-To start the analyses of the study cases, you need to run a Docker container and mount the data and R code to the container's files system at `/opt/in/`. The file `/opt/in/studycase/run.R` is automatically called if you start the container with the provided `run.sh` script. The commands below can be used to run the provided study case.
-
-
-_Note that the following commands limit the number of CPU cores and main memory available to the container. Feel free to use different settings for `--cpuset-cpu` and `-m`. Setting `--ipc="host"` is required to use [ScaLAPACK](http://www.netlib.org/scalapack) within containers._
-
-**Monitoring changes in Landsat NDVI time series:**
+To reproduce the analysis, you need to run a Docker container and mount data and R code to the container's files system at `/opt/in/`. The file `/opt/in/studycase/run.R` is automatically called if you start the container with the provided `run.sh` script. The commands below can be used to run the provided study case.
 
 ```
 docker run --name="scidbeo-egu2017demo" --rm -h "scidbeo-egu2017demo" -v $PWD:/opt/in scidb-eo:egu2017demo
@@ -60,16 +55,8 @@ To clean up your system, you can remove containers and the image with
 1. `docker rm scidbeo-egu2017demo` (only needed if container didn't run with `--rm`), and 
 2. `docker rmi scidb-eo:egu2017demo` .
 
-
-
-	
-	
 	
 ## Study case details
-
-Below, you can find brief descriptions of the study cases and datasets. 
-
-**Monitoring changes in Landsat NDVI time series:**
 
 This study case works on a small region covering 10x10 km in the southwest of Ethiopia. For this region, post-processed NDVI imagery captured by Landsat 7 between 2003-07-21 and 2014-12-27 has been downloaded from [espa.cr.usgs.gov](http://espa.cr.usgs.gov/). The resulting imagery (see `studycases/LANDSAT-BFAST/data`) has been cropped by GDAL.   
 
