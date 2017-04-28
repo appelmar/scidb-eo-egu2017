@@ -5,8 +5,11 @@ MAINTAINER Marius Appel <marius.appel@uni-muenster.de>
 RUN echo 'xxxx.xxxx.xxxx'  >> /opt/.scidbpw
 RUN chmod 600 /opt/.scidbpw
 
-ARG SCIDB_HOSTNAME
-ENV SCIDB_HOSTNAME ${SCIDB_HOSTNAME:scidbeo-egu2017demo}
+#ARG SCIDB_HOSTNAME
+#ENV SCIDB_HOSTNAME ${SCIDB_HOSTNAME:-scidbeo-egu2017demo}
+#ENV HOSTNAME $SCIDB_HOSTNAME
+
+ENV SCIDB_HOSTNAME scidbeo-egu2017demo
 ENV HOSTNAME $SCIDB_HOSTNAME
 
 EXPOSE 22 8083 1239 5432 
@@ -95,6 +98,9 @@ COPY conf/supervisord.conf 	/etc/supervisor/conf.d/
 COPY container_startup.sh 	/opt/container_startup.sh 
 COPY run.sh /opt/run.sh 
 RUN chmod +x /opt/container_startup.sh /opt/run.sh 
+
+RUN touch /opt/SCIDB_INIT_WHEN_RESTART # if this file exists the container will reinitialize SciDB at startup 
+EXPOSE 8787
 
 CMD "/usr/bin/supervisord"
 

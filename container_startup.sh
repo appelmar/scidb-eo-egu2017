@@ -12,6 +12,15 @@ service postgresql start
 sleep 30
 echo -e "... postgresql started"
 
+
+if [ -f /opt/SCIDB_INIT_WHEN_RESTART  ]
+then
+  /home/root/install/init_scidb.sh # re init SciDB
+  cd /opt/scidb4geo/install && yes | ./setup.sh /opt/scidb/15.7/etc/config.ini
+  rm -f /opt/SCIDB_INIT_WHEN_RESTART
+fi
+
+
 sudo -H -u scidb bash -c '/opt/scidb/15.7/bin/scidb.py stopall scidb_docker' 
 sudo -H -u scidb bash -c '/opt/scidb/15.7/bin/scidb.py startall scidb_docker' 
 sleep 5
